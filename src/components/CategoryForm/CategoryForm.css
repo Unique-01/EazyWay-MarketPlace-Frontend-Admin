@@ -1,0 +1,17 @@
+.category-form {
+    .form-label {
+        color: #4d5464;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+    .form-control::placeholder {
+        color: #858d9d;
+        font-size: 12px;
+    }
+    .form-control {
+        font-size: 13px;
+        background-color: #f9f9fc;
+        box-shadow: none;
+    }
+}

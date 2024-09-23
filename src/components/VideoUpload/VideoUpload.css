@@ -1,0 +1,82 @@
+/* VideoUpload.css */
+
+.dropzone-container {
+    border: 1.5px dashed #bfbfbf;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9fc;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dropzone-active {
+    background-color: #eee;
+}
+
+.video-placeholder {
+    border: 4.2px solid #bfecc180;
+    height: 50px;
+    width: 50px;
+    background-color: #bfecc180;
+}
+
+.icon-style {
+    font-size: 30px;
+    color: #00b207;
+}
+
+.file-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.file-preview {
+    border-radius: 5px;
+}
+
+.video-preview {
+    width: 100px;
+    height: 100px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drag-text {
+    color: #808080;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.add-btn {
+    background-color: #bfecc180;
+    color: #00b207;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+}

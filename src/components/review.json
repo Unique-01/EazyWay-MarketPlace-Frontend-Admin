@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Kristin Watson",
+        "rating": 5,
+        "content": "sdjh hj kjdsh fjhds jdf jhdsk j",
+        "image": "apple.png"
+    },
+    {
+        "name": "Kristin Watson",
+        "rating": 2,
+        "content": "sdjh hj kjdsh fjhds jdf jhdsk j",
+        "image": "maize.png"
+    },
+    {
+        "name": "Kristin Watson",
+        "rating": 3,
+        "content": "sdjh hj kjdsh fjhds jdf jhdsk j",
+        "image": "cabbage.png"
+    },
+    {
+        "name": "Kristin Watson",
+        "rating": 4,
+        "content": "sdjh hj kjdsh fjhds jdf jhdsk j",
+        "image": "potato.png"
+    }
+]

@@ -1,0 +1,27 @@
+.top-customers{
+    .see-all{
+        color: #1A1C21;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .heading{
+        font-size: 18px;
+        font-weight: 600;
+    }
+    .customer-name{
+        color: #1A1C21;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .sales{
+        font-size: 12px;
+        color: #667085;
+    }
+    .name-sales{
+        line-height: 18px;
+    }
+    .customer-image{
+        border-radius: 9999px;
+    }
+}

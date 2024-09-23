@@ -1,0 +1,35 @@
+.merchant-orders {
+    .btn {
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 15px;
+    }
+    .btn svg {
+        font-size: 20px;
+    }
+    .export-btn {
+        background-color: #bfecc1;
+        color: #00b207;
+    }
+
+    .icon{
+        background-color: #E0E2E7;
+        height: 40px;
+        width: 40px;
+        border-radius: 9999px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .icon svg{
+        color: #667085;
+        font-size: 20px;
+    }
+    .order-text{
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
