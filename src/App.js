@@ -21,6 +21,8 @@ import AxiosSetup from "api/apiClient";
 import Notification from "components/Notification";
 import CategoryList from "pages/Categories/CategoryList";
 import CategoryCreate from "pages/Categories/CategoryCreate";
+import CategoryUpdate from "pages/Categories/CategoryUpdate";
+import CategoryDetails from "pages/Categories/CategoryDetails";
 
 function App() {
     return (
@@ -71,6 +73,14 @@ function App() {
                                         <Route
                                             path="categories/add"
                                             element={<CategoryCreate />}
+                                        />
+                                        <Route
+                                            path="categories/:categoryId"
+                                            element={<CategoryDetails />}
+                                        />
+                                        <Route
+                                            path="categories/:categoryId/edit"
+                                            element={<CategoryUpdate />}
                                         />
                                     </Route>
                                 </Routes>

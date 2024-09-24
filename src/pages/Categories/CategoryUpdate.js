@@ -1,9 +1,9 @@
 import Breadcrumb from "components/Breadcrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { LiaTimesSolid } from "react-icons/lia";
-import { IoMdAdd } from "react-icons/io";
+import { FaRegSave } from "react-icons/fa";
 import CategoryForm from "components/CategoryForm";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiClient } from "api/apiClient";
 import config from "config";
 import HandleApiError from "components/HandleApiError";
@@ -11,26 +11,40 @@ import ProductCategoryContext from "context/ProductCategoryContext";
 import { NotificationContext } from "context/NotificationContext";
 import ButtonLoading from "components/ButtonLoading";
 
-const CategoryCreate = () => {
+const CategoryUpdate = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const { addOrUpdateCategory } = useContext(ProductCategoryContext);
+    const { categoryId } = useParams();
+    const {
+        addOrUpdateCategory,
+        categories,
+        loading: categoryLoading,
+    } = useContext(ProductCategoryContext);
     const navigate = useNavigate();
     const { showNotification } = useContext(NotificationContext);
+    const [initialFormData, setInitialFormData] = useState();
+
+    useEffect(() => {
+        if (!categoryLoading) {
+            const category = categories.find(
+                (category) => category._id === categoryId
+            );
+            setInitialFormData(category);
+        }
+    }, [categoryLoading, categories, categoryId]);
 
     const handleSubmit = async (formData) => {
         setLoading(true);
         try {
-            const response = await apiClient.post(
-                `${config.API_BASE_URL}/category`,
+            const response = await apiClient.put(
+                `${config.API_BASE_URL}/category?category=${categoryId}`,
                 formData
             );
-            console.log(formData);
             console.log(response.data.data);
             addOrUpdateCategory(response.data.data);
             navigate("/categories");
-            showNotification("Category Added Successfully");
+            showNotification("Category Updated Successfully");
         } catch (err) {
             HandleApiError(err, setError);
         } finally {
@@ -56,7 +70,7 @@ const CategoryCreate = () => {
                             onClick={() => setIsSubmitted(true)}
                             disabled={loading}
                             className="btn btn-primary text-white">
-                            <IoMdAdd /> Add Category{" "}
+                            <FaRegSave /> Save Category{" "}
                             {loading && <ButtonLoading />}
                         </button>
                     </div>
@@ -68,6 +82,7 @@ const CategoryCreate = () => {
                         setIsSubmitted={setIsSubmitted}
                         loading={loading}
                         error={error}
+                        initialFormData={initialFormData}
                     />
                 </div>
             </div>
@@ -75,4 +90,4 @@ const CategoryCreate = () => {
     );
 };
 
-export default CategoryCreate;
+export default CategoryUpdate;

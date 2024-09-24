@@ -11,6 +11,8 @@ const ImageUpload = ({
     removeExistingImage,
     multiple = true,
     maxFiles,
+    setDefaultImages,
+    disabled,
 }) => {
     const { handleSubmit } = useForm();
     const inputFileRef = useRef(null);
@@ -41,6 +43,7 @@ const ImageUpload = ({
         );
         if (!multiple) {
             setImages(updatedImages);
+            setDefaultImages([]);
         } else {
             setImages((prevState) => [...prevState, ...updatedImages]);
         }
@@ -91,6 +94,7 @@ const ImageUpload = ({
                                 />
                                 <button
                                     type="button"
+                                    disabled={disabled}
                                     onClick={(event) =>
                                         removeExistingImage(
                                             index,
@@ -113,6 +117,7 @@ const ImageUpload = ({
                                 {/* Remove button */}
                                 <button
                                     type="button"
+                                    disabled={disabled}
                                     onClick={(event) =>
                                         removeImage(index, event)
                                     }
@@ -131,6 +136,7 @@ const ImageUpload = ({
                     </p>
                     <button
                         type="button"
+                        disabled={disabled}
                         onClick={() => inputFileRef.current.click()}
                         className="add-btn">
                         Add Image

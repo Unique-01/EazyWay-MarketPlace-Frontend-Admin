@@ -26,8 +26,27 @@ export const ProductCategoryProvider = ({ children }) => {
         fetchCategories();
     }, []);
 
+    const addOrUpdateCategory = (newCategory) => {
+        setCategories((prevCategories) => {
+            const categoryExists = prevCategories.find(
+                (category) => category._id === newCategory._id
+            );
+
+            if (categoryExists) {
+                // Update existing product
+                return prevCategories.map((category) =>
+                    category._id === newCategory._id ? newCategory : category
+                );
+            } else {
+                // Add new product
+                return [...prevCategories, newCategory];
+            }
+        });
+    };
+
     return (
-        <ProductCategoryContext.Provider value={{ categories, loading }}>
+        <ProductCategoryContext.Provider
+            value={{ categories, loading, addOrUpdateCategory }}>
             {children}
         </ProductCategoryContext.Provider>
     );

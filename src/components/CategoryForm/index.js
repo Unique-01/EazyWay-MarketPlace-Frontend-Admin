@@ -1,22 +1,71 @@
 import ImageUpload from "components/ImageUpload";
 import "./CategoryForm.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const CategoryForm = () => {
+const CategoryForm = ({
+    onSubmit,
+    isSubmitted,
+    loading,
+    error,
+    setIsSubmitted,
+    initialFormData,
+}) => {
     const [image, setImage] = useState([]);
     const [defaultImage, setDefaultImage] = useState([]);
     const [formData, setFormData] = useState({
         title: "",
         description: "",
-        intendedFileName: "image",
-        intendedFile: null,
+        image: "",
     });
+
+    useEffect(() => {
+        if (initialFormData) {
+            setFormData(initialFormData);
+            if (initialFormData.image) {
+                setDefaultImage(
+                    [initialFormData.image].map((image) => ({
+                        preview: image.url,
+                        id: image._id,
+                    }))
+                );
+            }
+        }
+    }, [initialFormData]);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        if (isSubmitted) {
+            const newFormData = new FormData();
+            newFormData.append("title", formData.title);
+            newFormData.append("description", formData.description);
+            newFormData.append("intendedFileName", "image");
+            image.forEach((file) => {
+                newFormData.append("intendedFile", file);
+            });
+
+            onSubmit(newFormData);
+            setIsSubmitted(false);
+        }
+    }, [isSubmitted, formData, onSubmit, image, setIsSubmitted]);
+
+    const removeExistingImage = (indexToRemove, event) => {
+        setDefaultImage((prevImages) =>
+            prevImages.filter((_, index) => index !== indexToRemove)
+        );
+
+        setFormData((prevState) => ({
+            ...prevState,
+            // Exclude the removed image from the formData's image array
+            image: "",
+        }));
+    };
+
     return (
         <div className=" category-form row">
+            {error && <p className="text-danger">{error}</p>}
             <div className="col-md-4">
                 <div className="card border-0 shadow-sm">
                     <div className="card-body">
@@ -31,6 +80,9 @@ const CategoryForm = () => {
                                     setImages={setImage}
                                     multiple={false}
                                     defaultImages={defaultImage}
+                                    removeExistingImage={removeExistingImage}
+                                    setDefaultImages={setDefaultImage}
+                                    disabled={loading}
                                 />
                             </div>
                         </div>
@@ -52,6 +104,7 @@ const CategoryForm = () => {
                             className="form-control"
                             placeholder="Type category name here . . ."
                             onChange={handleInputChange}
+                            disabled={loading}
                         />
                     </div>
                     <div>
@@ -63,8 +116,7 @@ const CategoryForm = () => {
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            // disabled={loading}
-                        ></textarea>
+                            disabled={loading}></textarea>
                     </div>
                 </div>
             </div>
