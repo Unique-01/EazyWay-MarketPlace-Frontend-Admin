@@ -14,7 +14,7 @@ export const ProductProvider = ({ children }) => {
         // Fetch product products from the backend (once)
         const fetchProducts = async () => {
             if (!userLoading) {
-                if (user && user.privilege === "admin") {
+                if (user && user.isAdmin) {
                     try {
                         const response = await apiClient.get(
                             `${config.API_BASE_URL}/product`

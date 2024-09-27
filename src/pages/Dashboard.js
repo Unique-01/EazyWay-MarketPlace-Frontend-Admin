@@ -1,4 +1,4 @@
-import TopCustomers from "../components/MerchantSales";
+import MerchantSales from "../components/MerchantSales";
 import TopSellingProduct from "../components/TopSellingProduct";
 import Totals from "../components/Totals";
 // import products from "features/Products/products.json";
@@ -8,10 +8,26 @@ import OrderTable from "../components/OrderTable";
 import { VscSettings } from "react-icons/vsc";
 import { useContext, useEffect, useState } from "react";
 import ProductContext from "context/ProductContext";
+import DashboardStatContext from "context/DashboardStatContext";
 
 const Dashboard = () => {
     const { products, loading } = useContext(ProductContext);
+    const [totals, setTotals] = useState({});
+    const [merchants, setMerchants] = useState([]);
     const [productList, setProductList] = useState([]);
+    const {
+        card,
+        topSelling,
+        salesUsers,
+        loading: statLoading,
+    } = useContext(DashboardStatContext);
+
+    useEffect(() => {
+        if (!statLoading) {
+            setTotals(card);
+            setMerchants(salesUsers);
+        }
+    }, [statLoading, card, salesUsers]);
 
     useEffect(() => {
         if (!loading) {
@@ -22,10 +38,10 @@ const Dashboard = () => {
         <div className="py-5">
             <div style={{ minHeight: "100vh" }}>
                 <Totals
-                    sales={"10,550"}
-                    orders={"1,200"}
-                    products={productList.length}
-                    customers={500}
+                    sales={totals.sales}
+                    orders={totals.orders}
+                    products={totals.products}
+                    customers={totals.customers}
                 />
                 <div className="row mt-4">
                     <div className="col-lg-8">
@@ -35,7 +51,7 @@ const Dashboard = () => {
                         />
                     </div>
                     <div className="col-lg-4">
-                        <TopCustomers customers={Customers} />
+                        <MerchantSales merchants={merchants} />
                     </div>
                 </div>
                 <div className="mt-4">

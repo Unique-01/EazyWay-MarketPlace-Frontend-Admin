@@ -1,7 +1,7 @@
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoMdAdd } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import ProductForm from "components/ProductForm";
+import ProductForm from "pages/Products/components/ProductForm";
 import { useContext, useState } from "react";
 import ButtonLoading from "components/ButtonLoading";
 import axios from "axios";
@@ -26,16 +26,16 @@ const ProductCreate = () => {
 
     const handleSubmit = async (formData, images, videos, setFormData) => {
         setLoading(true);
-
+        const newFormData = { ...formData };
         const updateImageArray = (newImages) => {
-            setFormData((prevState) => ({
-                ...prevState,
-                image: newImages,
-            }));
+            
+            newFormData.image = [
+                ...(Array.isArray(newImages) ? newImages : [newImages]),
+            ];
         };
 
         try {
-            if (images) {
+            if (images.length > 0) {
                 const imageData = new FormData();
                 images.forEach((file) => {
                     imageData.append("intendedFile[]", file);
@@ -51,6 +51,7 @@ const ProductCreate = () => {
                         },
                     }
                 );
+                console.log(imageData);
                 console.log(imageResponse.data.data);
                 updateImageArray(imageResponse.data.data);
             }
@@ -73,14 +74,16 @@ const ProductCreate = () => {
                 console.log(videoResponse.data);
                 setFormData({ ...formData, video: videoResponse.data.data });
             }
+            console.log(formData);
+            console.log(newFormData);
 
             const formResponse = await apiClient.post(
                 `${config.API_BASE_URL}/product`,
-                formData
+                newFormData
             );
 
             addOrUpdateProduct(formResponse.data.data);
-            navigate("/merchant/products");
+            navigate("/products");
             showNotification("Product Added Successfully");
 
             console.log(formResponse);

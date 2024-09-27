@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import "./TopCustomer.css";
-const MerchantSales = ({ customers }) => {
+const MerchantSales = ({ merchants }) => {
     return (
         <div className="top-customers inter">
             <div className="card border-0 shadow-sm">
@@ -17,20 +17,20 @@ const MerchantSales = ({ customers }) => {
                     </p>
                 </div>
                 <div className="card-body inter ">
-                    {customers.map((customer, index) => (
+                    {merchants.map((merchant, index) => (
                         <div
                             key={index}
                             className="d-flex justify-content-between align-items-center mb-3">
                             <div className="d-flex align-items-center gap-2">
                                 <img
-                                    src={require(`/src/assets/images/products/${customer.image}`)}
-                                    alt={customer.name}
+                                    src={require(`/src/assets/images/products/${merchant.image}`)}
+                                    alt={merchant.name}
                                     width={44}
                                     className="customer-image"
                                 />
                                 <div className="name-sales">
                                     <span className="customer-name ">
-                                        {customer.name}
+                                        {merchant.name}
                                     </span>
                                     <br />
                                     <span className="sales">250 sales</span>

@@ -1,7 +1,7 @@
 import { LiaTimesSolid } from "react-icons/lia";
 import { FaRegSave } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import ProductForm from "components/ProductForm";
+import ProductForm from "pages/Products/components/ProductForm";
 import { useState, useContext, useEffect } from "react";
 import ButtonLoading from "components/ButtonLoading";
 import axios from "axios";
@@ -101,7 +101,7 @@ const ProductUpdate = () => {
             // After successful update, update the product in the context
             addOrUpdateProduct(formResponse.data.data);
             showNotification("Product Updated Successfully");
-            navigate(`/merchant/products/${productId}`)
+            navigate(`/products/${productId}`)
 
             console.log(formResponse);
         } catch (err) {
@@ -120,7 +120,7 @@ const ProductUpdate = () => {
                     <h5>Edit Product</h5>
                     <div className="d-inline-flex gap-3">
                         <Link
-                            to="/merchant/products"
+                            to="/products"
                             className="btn cancel-btn btn-light border text-secondary">
                             <LiaTimesSolid /> Cancel
                         </Link>

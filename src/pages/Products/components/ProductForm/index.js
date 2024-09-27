@@ -4,7 +4,7 @@ import GeneralInformation from "./components/GeneralInformation";
 import MediaUpload from "./components/MediaUpload";
 import Pricing from "./components/Pricing";
 import Inventory from "./components/Inventory";
-import VariationForm from "components/ProductForm/components/VariationForm";
+import VariationForm from "pages/Products/components/ProductForm/components/VariationForm";
 import Shipping from "./components/Shipping";
 import CategorySelect from "./components/CategorySelect";
 import StatusSelect from "./components/StatusSelect";

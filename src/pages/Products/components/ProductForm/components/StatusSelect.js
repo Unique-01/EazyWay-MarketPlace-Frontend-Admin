@@ -11,6 +11,7 @@ const StatusSelect = ({ selectedStatus, handleChange, loading }) => (
             disabled={loading}>
             <option value="draft">Draft</option>
             <option value="in-review">Publish for review</option>
+            <option value="published">Publish</option>
         </select>
     </div>
 );

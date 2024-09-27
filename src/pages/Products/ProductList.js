@@ -3,7 +3,7 @@ import { PiExport } from "react-icons/pi";
 import { IoMdAdd } from "react-icons/io";
 import { CgSearch } from "react-icons/cg";
 import "./Products.css";
-import ProductTable from "components/ProductTable";
+import ProductTable from "pages/Products/components/ProductTable";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import { useContext, useEffect, useState } from "react";
 import ProductContext from "context/ProductContext";
@@ -16,6 +16,7 @@ const ProductList = () => {
     useEffect(() => {
         if (!loading) {
             setProductList(products);
+            console.log(products)
         }
     }, [loading, products]);
 

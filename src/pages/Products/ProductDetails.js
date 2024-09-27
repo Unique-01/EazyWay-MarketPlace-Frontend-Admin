@@ -1,6 +1,6 @@
 import { LiaTimesSolid } from "react-icons/lia";
 import { Link, useParams } from "react-router-dom";
-import ProductForm from "components/ProductForm";
+import ProductForm from "pages/Products/components/ProductForm";
 import { GrEdit } from "react-icons/gr";
 import { useContext, useEffect, useState } from "react";
 import ProductContext from "context/ProductContext";
