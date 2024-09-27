@@ -1,20 +1,19 @@
 import MerchantSales from "../components/MerchantSales";
 import TopSellingProduct from "../components/TopSellingProduct";
 import Totals from "../components/Totals";
-// import products from "features/Products/products.json";
-import Customers from "components/review.json";
 import orderList from "components/order.json";
 import OrderTable from "../components/OrderTable";
 import { VscSettings } from "react-icons/vsc";
 import { useContext, useEffect, useState } from "react";
-import ProductContext from "context/ProductContext";
 import DashboardStatContext from "context/DashboardStatContext";
+import { useOrder } from "context/OrderContext";
 
 const Dashboard = () => {
-    const { products, loading } = useContext(ProductContext);
     const [totals, setTotals] = useState({});
     const [merchants, setMerchants] = useState([]);
-    const [productList, setProductList] = useState([]);
+    const [topSellingProducts, setTopSellingProducts] = useState([]);
+    const [recentOrders, setRecentOrders] = useState([]);
+    const { orders, loading: ordersLoading } = useOrder();
     const {
         card,
         topSelling,
@@ -26,14 +25,15 @@ const Dashboard = () => {
         if (!statLoading) {
             setTotals(card);
             setMerchants(salesUsers);
+            setTopSellingProducts(topSelling);
         }
-    }, [statLoading, card, salesUsers]);
+    }, [statLoading, card, salesUsers, topSelling]);
 
     useEffect(() => {
-        if (!loading) {
-            setProductList(products);
+        if (!ordersLoading) {
+            setRecentOrders(orders.slice(0, 5));
         }
-    }, [loading, products]);
+    }, [ordersLoading, orders]);
     return (
         <div className="py-5">
             <div style={{ minHeight: "100vh" }}>
@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <div className="row mt-4">
                     <div className="col-lg-8">
                         <TopSellingProduct
-                            productList={productList}
+                            productList={topSellingProducts}
                             itemsPerPage={5}
                         />
                     </div>
@@ -72,7 +72,7 @@ const Dashboard = () => {
                             </button>
                         </div>
                     </div>
-                    <OrderTable orderList={orderList} itemsPerPage={4} />
+                    <OrderTable orderList={recentOrders} itemsPerPage={5} />
                 </div>
             </div>
         </div>

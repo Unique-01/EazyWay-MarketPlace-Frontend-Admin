@@ -24,6 +24,7 @@ import CategoryCreate from "pages/Categories/CategoryCreate";
 import CategoryUpdate from "pages/Categories/CategoryUpdate";
 import CategoryDetails from "pages/Categories/CategoryDetails";
 import { DashboardStatProvider } from "context/DashboardStatContext";
+import { OrderProvider } from "context/OrderContext";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                     <ProductProvider>
                         <NotificationProvider>
                             <DashboardStatProvider>
+                                <OrderProvider>
                                 <BrowserRouter>
                                     <AxiosSetup />
                                     <Notification />
@@ -93,6 +95,7 @@ function App() {
                                         </Route>
                                     </Routes>
                                 </BrowserRouter>
+                                </OrderProvider>
                             </DashboardStatProvider>
                         </NotificationProvider>
                     </ProductProvider>

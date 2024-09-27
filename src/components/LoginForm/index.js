@@ -1,5 +1,5 @@
 import registrationBanner from "assets/images/registrationImg.svg";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./LoginForm.css";
 import { useState } from "react";
 import PasswordInput from "components/PasswordInput";
@@ -23,7 +23,6 @@ const LoginForm = ({ onSubmit, loading, error }) => {
                         src={registrationBanner}
                         alt="Banner"
                         className="w-100"
-                        
                     />
                 </div>
                 <div className="col-lg-6">
@@ -66,11 +65,6 @@ const LoginForm = ({ onSubmit, loading, error }) => {
                                             Remember Me
                                         </label>
                                     </div>
-                                    <Link
-                                        to="/reset_password"
-                                        className="forget-password">
-                                        Forget Password
-                                    </Link>
                                 </div>
                                 <button
                                     className="btn btn-primary text-white login-btn  w-100 rounded-pill"
@@ -79,14 +73,6 @@ const LoginForm = ({ onSubmit, loading, error }) => {
                                     Login {loading && <ButtonLoading />}
                                 </button>
                             </form>
-                            <p className="no-account mt-3">
-                                Don't have an account?{" "}
-                                <Link
-                                    to="/signup/customer"
-                                    className="text-black fw-semibold">
-                                    Register
-                                </Link>
-                            </p>
                         </div>
                     </div>
                     <p className="text-primary fw-semibold">
