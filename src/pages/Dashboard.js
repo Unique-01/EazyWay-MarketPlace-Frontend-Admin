@@ -1,7 +1,6 @@
 import MerchantSales from "../components/MerchantSales";
 import TopSellingProduct from "../components/TopSellingProduct";
 import Totals from "../components/Totals";
-import orderList from "components/order.json";
 import OrderTable from "../components/OrderTable";
 import { VscSettings } from "react-icons/vsc";
 import { useContext, useEffect, useState } from "react";

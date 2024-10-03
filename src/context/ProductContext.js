@@ -19,7 +19,13 @@ export const ProductProvider = ({ children }) => {
                         const response = await apiClient.get(
                             `${config.API_BASE_URL}/product`
                         );
-                        setProducts(response.data.data.docs);
+
+                        const productResponse = response.data.data.docs;
+                        const sortedProduct = [...productResponse].sort(
+                            (a, b) =>
+                                new Date(b.createdAt) - new Date(a.createdAt)
+                        );
+                        setProducts(sortedProduct);
                     } catch (error) {
                         console.error(
                             "Error fetching product products:",

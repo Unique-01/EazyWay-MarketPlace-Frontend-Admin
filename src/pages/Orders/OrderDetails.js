@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Orders from "components/order.json";
 import { PiExport } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { HiOutlineNewspaper } from "react-icons/hi2";
@@ -12,12 +11,30 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { RiVerifiedBadgeLine } from "react-icons/ri";
 import { TfiLocationPin } from "react-icons/tfi";
 import OrderProduct from "components/OrderProduct";
+import { useOrder } from "context/OrderContext";
+import { useState, useEffect } from "react";
+import Loading from "components/Loading";
+import NotFoundPage from "pages/NotFound/NotFoundPage";
+import FormattedDate from "components/FormattedDate";
 
 const OrderDetails = () => {
     const { orderId } = useParams();
+    const { orders, loading: orderLoading } = useOrder();
+    const [order, setOrder] = useState({});
 
-    const order = Orders.find((order) => order.id === orderId);
+    useEffect(() => {
+        if (!orderLoading) {
+            setOrder(orders.find((order) => order._id === orderId));
+        }
+    }, [orders, orderLoading, orderId]);
 
+    if (orderLoading) {
+        return <Loading />;
+    }
+
+    if (!order) {
+        return <NotFoundPage />;
+    }
     return (
         <div className="merchant-orders inter py-4">
             <div>
@@ -25,7 +42,7 @@ const OrderDetails = () => {
                     <h5>Order Details</h5>
                     <div className="d-inline-flex gap-3">
                         <button className="btn btn-light bg-white text-muted">
-                            Processing
+                            {order.statusText}
                         </button>
                         <button className="btn export-btn">
                             <PiExport /> Export
@@ -45,7 +62,7 @@ const OrderDetails = () => {
                                 <div className="card border-0 shadow-sm">
                                     <div className="card-body">
                                         <h6 className="mb-3">
-                                            Order #{order.id}
+                                            Order {order.itemId}
                                         </h6>
                                         <div className="d-flex justify-content-between align-items-center order-text mb-3">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -54,7 +71,11 @@ const OrderDetails = () => {
                                                 </div>
                                                 Added
                                             </span>
-                                            <span>{order.date}</span>
+                                            <span>
+                                                <FormattedDate
+                                                    date={order.createdAt}
+                                                />
+                                            </span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center order-text mb-3">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -63,7 +84,7 @@ const OrderDetails = () => {
                                                 </div>
                                                 Payment Method
                                             </span>
-                                            <span>{order.date}</span>
+                                            <span>{order.paymentMethod}</span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center order-text">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -88,7 +109,13 @@ const OrderDetails = () => {
                                                 </div>
                                                 Customer
                                             </span>
-                                            <span>{order.date}</span>
+                                            <span>
+                                                {" "}
+                                                {order.user &&
+                                                    order.user.firstName +
+                                                        " " +
+                                                        order.user.lastName}
+                                            </span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center order-text mb-3">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -97,7 +124,9 @@ const OrderDetails = () => {
                                                 </div>
                                                 Email
                                             </span>
-                                            <span>{order.date}</span>
+                                            <span>
+                                                {order.user && order.user.email}
+                                            </span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center order-text">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -106,14 +135,17 @@ const OrderDetails = () => {
                                                 </div>
                                                 Phone
                                             </span>
-                                            <span>{order.date}</span>
+                                            <span>
+                                                {order.user &&
+                                                    order.user.telephone}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-4">
-                            <OrderProduct />
+                            <OrderProduct order={order} />
                         </div>
                     </div>
                     <div className="col-md-4">
@@ -163,7 +195,8 @@ const OrderDetails = () => {
                                         </span>
                                         <br />
                                         <span>
-                                            sdjk fsdkfj skdfklsdj kljds kfjls
+                                            {order.user?.extras &&
+                                                order.user.extras.streetAddress}
                                         </span>
                                     </div>
                                 </div>
@@ -178,7 +211,8 @@ const OrderDetails = () => {
                                         </span>
                                         <br />
                                         <span>
-                                            sdjk fsdkfj skdfklsdj kljds kfjls
+                                            {order.user?.extras &&
+                                                order.user.extras.streetAddress}
                                         </span>
                                     </div>
                                 </div>

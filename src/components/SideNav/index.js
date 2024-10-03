@@ -88,13 +88,17 @@ const SideNav = ({ onCollapse, isOpen }) => {
                         </div>
                     </div>
 
-                    <NavLink to="/sales_report" className="nav-link w-100">
+                    <NavLink to="/customers" className="nav-link w-100">
                         <ImUsers className="nav-icon" />
                         <span className="">Customers</span>
                     </NavLink>
-                    <NavLink to="/payments" className="nav-link w-100">
+                    <NavLink to="/merchants" className="nav-link w-100">
                         <ImUsers className="nav-icon" />
                         <span className="">Merchants</span>
+                    </NavLink>
+                    <NavLink to="/payments" className="nav-link w-100">
+                        <AiOutlineDollar className="nav-icon" />
+                        <span className="">Payments</span>
                     </NavLink>
                     <NavLink to="/settings" className="nav-link w-100">
                         <IoMdSettings className="nav-icon" />

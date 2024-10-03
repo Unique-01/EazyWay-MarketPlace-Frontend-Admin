@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import MerchantPagination from "components/AdminPagination";
+import Pagination from "components/AdminPagination";
 import { BsEye } from "react-icons/bs";
 import { RiPencilLine } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 import FormattedDate from "components/FormattedDate";
 import { AuthContext } from "context/AuthContext";
 
-const ProductTable = ({ productList, itemsPerPage }) => {
+const CustomerTable = ({ customerList, itemsPerPage }) => {
     const { user } = useContext(AuthContext);
     const [currentPage, setCurrentPage] = useState(1);
-    const totalItems = productList.length;
+    const totalItems = customerList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     // Calculate the current start and end indices for the items
@@ -18,7 +18,7 @@ const ProductTable = ({ productList, itemsPerPage }) => {
     const endIdx = Math.min(currentPage * itemsPerPage, totalItems);
 
     // Get the orders for the current page
-    const currentProducts = productList.slice(startIdx - 1, endIdx);
+    const currentCustomer = customerList.slice(startIdx - 1, endIdx);
 
     // Handle page change
     const handlePageChange = (pageNumber) => {
@@ -42,17 +42,17 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                         <span
                                             htmlFor="select"
                                             className="form-check-label">
-                                            Product
+                                            Customer Name
                                         </span>
                                     </span>
                                 </th>
                                 <th scope="col" className="order-column">
-                                    SKU
+                                    Phone
                                 </th>
                                 <th scope="col" className="order-column">
-                                    category
+                                    Orders
                                 </th>
-                                <th scope="col" className="order-column">
+                                {/* <th scope="col" className="order-column">
                                     stock
                                 </th>
                                 <th scope="col" className="order-column">
@@ -60,9 +60,9 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                 </th>
                                 <th scope="col" className="order-column">
                                     status
-                                </th>
+                                </th> */}
                                 <th scope="col" className="order-column">
-                                    Added
+                                    Created
                                 </th>
                                 <th scope="col" className="order-column">
                                     Action
@@ -70,7 +70,7 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                             </tr>
                         </thead>
                         <tbody className="body mt-5 pt-5">
-                            {currentProducts.map((product, index) => (
+                            {currentCustomer.map((customer, index) => (
                                 <tr className="align-middle px-0" key={index}>
                                     <td className="ps-4 order-column">
                                         <span className="d-flex  gap-2 align-items-center">
@@ -80,12 +80,10 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                                 id="select"
                                             />
                                             <div className="d-inline-flex align-items-center gap-1 ">
-                                                {product.image.length > 0 && (
+                                                {customer.image && (
                                                     <img
-                                                        src={
-                                                            product.image[0].url
-                                                        }
-                                                        alt={product.title}
+                                                        src={customer.image.url}
+                                                        alt={customer.title}
                                                         className="img-fluid rounded"
                                                         style={{
                                                             maxWidth: "50px",
@@ -94,85 +92,39 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                                 )}
                                                 <div className="order-text fw-normal">
                                                     <span className="item-name">
-                                                        {product.title}
+                                                        {customer.title}
                                                     </span>
                                                     <br />
                                                     <span className="other-product fade-color">
-                                                        +{" "}
-                                                        {
-                                                            product.variations
-                                                                .length
-                                                        }{" "}
-                                                        Variant(s)
+                                                        {customer.email}
                                                     </span>
                                                 </div>
                                             </div>
                                         </span>
                                     </td>
-                                    <td
-                                        className="order-column"
-                                        style={{
-                                            color: "#5C59E8",
-                                            fontWeight: "600",
-                                        }}>
-                                        {product.sku}
+                                    <td className="order-column">
+                                        {customer.telephone}
                                     </td>
                                     <td className="order-text order-column fade-color">
-                                        {product.category.title}
+                                        {customer.orders}
                                     </td>
-                                    <td className="order-text order-column">
+                                    {/* <td className="order-text order-column">
                                         {product.quantity}
                                     </td>
                                     <td className="order-text order-column fade-color">
                                         ${product.amount}
-                                    </td>
-                                    <td className="">
-                                        <div className="merchant-product-status">
-                                            {product.availType ===
-                                            "published" ? (
-                                                product.quantity <= 20 ? (
-                                                    <span className="text-danger rounded-pill">
-                                                        Low Stock
-                                                    </span>
-                                                ) : (
-                                                    <span className="in-stock rounded-pill">
-                                                        In Stock
-                                                    </span>
-                                                )
-                                            ) : product.availType ===
-                                              "in-review" ? (
-                                                <span className="low-stock rounded-pill">
-                                                    In review
-                                                </span>
-                                            ) : (
-                                                <span className="bg-light text-secondary rounded-pill">
-                                                    Draft
-                                                </span>
-                                            )}
-                                        </div>
-                                    </td>
+                                    </td> */}
+
                                     <td className="order-column fade-color">
                                         <FormattedDate
-                                            date={product.createdAt}
+                                            date={customer.createdAt}
                                         />
                                     </td>
                                     <td>
                                         <div className="action d-flex gap-2">
                                             <Link
-                                                to={`/products/${product._id}`}>
+                                                to={`/customers/${customer._id}`}>
                                                 <BsEye />
-                                            </Link>
-                                            <Link
-                                                to={
-                                                    product.user.toString() ===
-                                                    user._id.toString()
-                                                        ? `/products/${product._id}/edit`
-                                                        : `/products/${product._id}`
-                                                }>
-                                                <RiPencilLine />
-                                            </Link>
-                                            <Link>
-                                                <FaRegTrashAlt />
                                             </Link>
                                         </div>
                                     </td>
@@ -182,7 +134,7 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                     </table>
                 </div>
 
-                <MerchantPagination
+                <Pagination
                     startIdx={startIdx}
                     endIdx={endIdx}
                     totalItems={totalItems}
@@ -195,4 +147,4 @@ const ProductTable = ({ productList, itemsPerPage }) => {
     );
 };
 
-export default ProductTable;
+export default CustomerTable;

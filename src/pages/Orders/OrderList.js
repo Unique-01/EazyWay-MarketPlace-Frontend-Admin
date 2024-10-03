@@ -2,10 +2,25 @@ import { PiExport } from "react-icons/pi";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import "./Orders.css";
 import OrderTable from "components/OrderTable";
-import Orders from "components/order.json";
 import Breadcrumb from "components/Breadcrumb";
+import { useOrder } from "context/OrderContext";
+import { useState, useEffect } from "react";
+import Loading from "components/Loading";
 
 const OrderList = () => {
+    const { orders, loading: ordersLoading } = useOrder();
+    const [orderList, setOrderList] = useState([]);
+    useEffect(() => {
+        if (!ordersLoading) {
+            setOrderList(orders);
+            console.log(orders)
+        }
+    }, [ordersLoading, orders]);
+
+    if (ordersLoading) {
+        return <Loading />;
+    }
+
     return (
         <div className="merchant-orders inter py-4">
             <div>
@@ -27,7 +42,7 @@ const OrderList = () => {
                     </button>
                 </div>
                 <div className="mt-4">
-                    <OrderTable orderList={Orders} itemsPerPage={10} />
+                    <OrderTable orderList={orderList} itemsPerPage={10} />
                 </div>
             </div>
         </div>
