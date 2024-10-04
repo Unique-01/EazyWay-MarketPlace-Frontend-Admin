@@ -1,12 +1,8 @@
-import "./OrderTable.css";
 import { useState } from "react";
-import MerchantPagination from "../AdminPagination";
-import { BsEye } from "react-icons/bs";
-import { RiPencilLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import AdminPagination from "components/AdminPagination";
 import FormattedDate from "components/FormattedDate";
 
-const OrderTable = ({ orderList, itemsPerPage }) => {
+const TransactionHistory = ({ orderList, itemsPerPage }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = orderList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -26,63 +22,37 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
     return (
         <div className="merchant-order-table inter">
             <div className="bg-white rounded shadow-sm">
+                <div className="p-3">
+                    <h6>Transaction History</h6>
+                </div>
                 <div className="table-responsive">
                     <table className="table">
                         <thead className="table-head mb-5">
                             <tr className="text-capitalize">
                                 <th scope="col" className="ps-4 order-column">
-                                    <span className="d-flex  gap-2 align-items-center">
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input shadow-none"
-                                            id="select"
-                                        />
-                                        <span
-                                            htmlFor="select"
-                                            className="form-check-label">
-                                            Order ID
-                                        </span>
-                                    </span>
+                                    Order ID
                                 </th>
                                 <th scope="col" className="order-column">
                                     product
                                 </th>
-                                <th scope="col" className="order-column">
-                                    Date
-                                </th>
-                                <th scope="col" className="order-column">
-                                    Customer
-                                </th>
+
                                 <th scope="col" className="order-column">
                                     Total
                                 </th>
-                                <th scope="col" className="order-column">
-                                    Payment
-                                </th>
+
                                 <th scope="col" className="order-column">
                                     Status
                                 </th>
                                 <th scope="col" className="order-column">
-                                    Action
+                                    Date
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="body mt-5 pt-5">
                             {currentOrders.map((order, index) => (
                                 <tr className="align-middle px-0" key={index}>
-                                    <td className="ps-4 order-column">
-                                        <span className="d-flex  gap-2 align-items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input shadow-none"
-                                                id="select"
-                                            />
-                                            <span
-                                                htmlFor="select"
-                                                className="form-check-label order-id">
-                                                {order.itemId}
-                                            </span>
-                                        </span>
+                                    <td className="ps-4 order-column text-primary">
+                                        {order.itemId}
                                     </td>
                                     <td>
                                         <div className="d-inline-flex align-items-center gap-1 ">
@@ -125,25 +95,10 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
                                             )}
                                         </div>
                                     </td>
-                                    <td className="order-text order-column fade-color">
-                                        <FormattedDate date={order.createdAt} />
-                                    </td>
-                                    <td className="order-text order-column">
-                                        <div>
-                                            <div>
-                                                {order.user.firstName +
-                                                    " " +
-                                                    order.user.lastName}
-                                            </div>
-                                            <div className="customer-mail fade-color">
-                                                {order.user.email}
-                                            </div>
-                                        </div>
-                                    </td>
+
                                     <td className="order-text order-column fade-color">
                                         ${order.amount}
                                     </td>
-                                    <td className="fade-color text-capitalize">{order.paymentMethod}</td>
                                     <td className="order-column">
                                         {order.statusText}
                                         {/* <div className="merchant-product-status">
@@ -158,15 +113,8 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
                                             )}
                                         </div> */}
                                     </td>
-                                    <td>
-                                        <div className="action d-flex gap-2">
-                                            <Link to={`/orders/${order._id}`}>
-                                                <BsEye />
-                                            </Link>
-                                            <Link>
-                                                <RiPencilLine />
-                                            </Link>
-                                        </div>
+                                    <td className="order-text order-column fade-color">
+                                        <FormattedDate date={order.createdAt} />
                                     </td>
                                 </tr>
                             ))}
@@ -174,7 +122,7 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
                     </table>
                 </div>
 
-                <MerchantPagination
+                <AdminPagination
                     startIdx={startIdx}
                     endIdx={endIdx}
                     totalItems={totalItems}
@@ -187,4 +135,4 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
     );
 };
 
-export default OrderTable;
+export default TransactionHistory;

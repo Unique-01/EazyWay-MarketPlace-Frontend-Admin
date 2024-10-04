@@ -6,8 +6,20 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FormattedDate from "components/FormattedDate";
 import { AuthContext } from "context/AuthContext";
+import ConfirmDeleteModal from "components/ConfirmDelete";
+import { NotificationContext } from "context/NotificationContext";
+import { apiClient } from "api/apiClient";
+import config from "config";
+import HandleApiError from "components/HandleApiError";
 
 const ProductTable = ({ productList, itemsPerPage }) => {
+    const [showModal, setShowModal] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState({});
+    const { showNotification } = useContext(NotificationContext);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [error, setError] = useState("");
+
+
     const { user } = useContext(AuthContext);
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = productList.length;
@@ -25,8 +37,33 @@ const ProductTable = ({ productList, itemsPerPage }) => {
         setCurrentPage(pageNumber);
     };
 
+    const handleDelete = (item) => {
+        setItemToDelete(item);
+        setShowModal(true);
+    };
+
+    const handleClose = () => setShowModal(false);
+
+    const handleConfirmDelete = async () => {
+        setDeleteLoading(true);
+        try {
+            await apiClient.delete(
+                `${config.API_BASE_URL}/product?product=${itemToDelete._id}`
+            );
+            showNotification("Product deleted Successfully");
+        } catch (err) {
+            HandleApiError(err, setError);
+        } finally {
+            setDeleteLoading(false);
+        }
+        console.log(`Deleted item: ${itemToDelete}`);
+        setShowModal(false);
+    };
+
+
     return (
         <div className="merchant-order-table inter">
+            {error && <p className="text-danger">{error}</p>}
             <div className="bg-white rounded shadow-sm">
                 <div className="table-responsive">
                     <table className="table">
@@ -118,7 +155,7 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                         {product.sku}
                                     </td>
                                     <td className="order-text order-column fade-color">
-                                        {product.category.title}
+                                        {product?.category && product.category.title}
                                     </td>
                                     <td className="order-text order-column">
                                         {product.quantity}
@@ -171,9 +208,13 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                                 }>
                                                 <RiPencilLine />
                                             </Link>
-                                            <Link>
+                                            <button
+                                                className="border-0 bg-white text-danger"
+                                                onClick={() =>
+                                                    handleDelete(product)
+                                                }>
                                                 <FaRegTrashAlt />
-                                            </Link>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -189,6 +230,13 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                     totalPages={totalPages}
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
+                />
+                <ConfirmDeleteModal
+                    show={showModal}
+                    handleClose={handleClose}
+                    handleConfirm={handleConfirmDelete}
+                    item={itemToDelete}
+                    loading={deleteLoading}
                 />
             </div>
         </div>

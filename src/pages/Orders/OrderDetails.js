@@ -84,7 +84,7 @@ const OrderDetails = () => {
                                                 </div>
                                                 Payment Method
                                             </span>
-                                            <span>{order.paymentMethod}</span>
+                                            <span className="text-capitalize">{order.paymentMethod}</span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center order-text">
                                             <span className="d-inline-flex gap-2 align-items-center">
@@ -117,7 +117,7 @@ const OrderDetails = () => {
                                                         order.user.lastName}
                                             </span>
                                         </div>
-                                        <div className="d-flex justify-content-between align-items-center order-text mb-3">
+                                        <div className="d-flex justify-content-between align-items-center order-text mb-3 flex-wrap">
                                             <span className="d-inline-flex gap-2 align-items-center">
                                                 <div className="icon">
                                                     <MdOutlineMail />

@@ -52,15 +52,10 @@ const CustomerTable = ({ customerList, itemsPerPage }) => {
                                 <th scope="col" className="order-column">
                                     Orders
                                 </th>
-                                {/* <th scope="col" className="order-column">
-                                    stock
-                                </th>
-                                <th scope="col" className="order-column">
-                                    price
-                                </th>
+
                                 <th scope="col" className="order-column">
                                     status
-                                </th> */}
+                                </th>
                                 <th scope="col" className="order-column">
                                     Created
                                 </th>
@@ -92,7 +87,9 @@ const CustomerTable = ({ customerList, itemsPerPage }) => {
                                                 )}
                                                 <div className="order-text fw-normal">
                                                     <span className="item-name">
-                                                        {customer.title}
+                                                        {customer.firstName +
+                                                            " " +
+                                                            customer.lastName}
                                                     </span>
                                                     <br />
                                                     <span className="other-product fade-color">
@@ -106,14 +103,24 @@ const CustomerTable = ({ customerList, itemsPerPage }) => {
                                         {customer.telephone}
                                     </td>
                                     <td className="order-text order-column fade-color">
-                                        {customer.orders}
+                                        {customer.ordersTotal}
                                     </td>
-                                    {/* <td className="order-text order-column">
-                                        {product.quantity}
+
+                                    <td className="order-text order-column ">
+                                        {/* {customer.statusText} */}
+                                        <div className="merchant-product-status">
+                                            {customer.statusText ===
+                                            "activated" ? (
+                                                <span className="in-stock rounded-pill">
+                                                    {customer.statusText}
+                                                </span>
+                                            ) : (
+                                                <span className="low-stock rounded-pill">
+                                                    {customer.statusText}
+                                                </span>
+                                            )}
+                                        </div>
                                     </td>
-                                    <td className="order-text order-column fade-color">
-                                        ${product.amount}
-                                    </td> */}
 
                                     <td className="order-column fade-color">
                                         <FormattedDate

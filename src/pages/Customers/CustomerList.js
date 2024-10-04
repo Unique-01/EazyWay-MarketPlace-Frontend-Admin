@@ -3,22 +3,23 @@ import { PiExport } from "react-icons/pi";
 import { IoMdAdd } from "react-icons/io";
 import { CgSearch } from "react-icons/cg";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-import { useContext, useEffect, useState } from "react";
-import ProductContext from "context/ProductContext";
+import { useEffect, useState } from "react";
 import Breadcrumb from "components/Breadcrumb";
 import CustomerTable from "./CustomerTable";
+import { useCustomer } from "context/CustomersContext";
 
 const CustomerList = () => {
+    const { customers, loading } = useCustomer();
     // const { products, loading } = useContext(ProductContext);
     const [customerList, setCustomerList] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); // State for search input
 
-    // useEffect(() => {
-    //     if (!loading) {
-    //         setProductList(products);
-    //         console.log(products)
-    //     }
-    // }, [loading, products]);
+    useEffect(() => {
+        if (!loading) {
+            setCustomerList(customers);
+            console.log(customers);
+        }
+    }, [loading, customers]);
 
     // Function to handle search input change
     const handleSearch = (event) => {
@@ -28,7 +29,8 @@ const CustomerList = () => {
 
     // Filter the product list based on search query
     const filteredCustomer = customerList.filter(
-        (product) => product.title.toLowerCase().includes(searchQuery.trim()) // Adjust this to match your product's name or any other property
+        (customer) =>
+            customer.firstName.toLowerCase().includes(searchQuery.trim()) // Adjust this to match your product's name or any other property
     );
 
     return (

@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Pagination from "components/AdminPagination";
 import { BsEye } from "react-icons/bs";
 import { RiPencilLine } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FormattedDate from "components/FormattedDate";
+import ConfirmDeleteModal from "./ConfirmDelete";
+import { apiClient } from "api/apiClient";
+import config from "config";
+import { NotificationContext } from "context/NotificationContext";
+import HandleApiError from "./HandleApiError";
 
 const CategoryTable = ({ categoryList, itemsPerPage }) => {
+    const [showModal, setShowModal] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState({});
+    const { showNotification } = useContext(NotificationContext);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [error, setError] = useState("");
+
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = categoryList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -23,8 +34,32 @@ const CategoryTable = ({ categoryList, itemsPerPage }) => {
         setCurrentPage(pageNumber);
     };
 
+    const handleDelete = (item) => {
+        setItemToDelete(item);
+        setShowModal(true);
+    };
+
+    const handleClose = () => setShowModal(false);
+
+    const handleConfirmDelete = async () => {
+        setDeleteLoading(true);
+        try {
+            await apiClient.delete(
+                `${config.API_BASE_URL}/category?category=${itemToDelete._id}`
+            );
+            showNotification("Category deleted Successfully");
+        } catch (err) {
+            HandleApiError(err, setError);
+        } finally {
+            setDeleteLoading(false);
+        }
+        console.log(`Deleted item: ${itemToDelete}`);
+        setShowModal(false);
+    };
+
     return (
         <div className="merchant-order-table inter">
+            {error && <p className="text-danger">{error}</p>}
             <div className="bg-white rounded shadow-sm">
                 <div className="table-responsive">
                     <table className="table">
@@ -80,7 +115,7 @@ const CategoryTable = ({ categoryList, itemsPerPage }) => {
                                                     />
                                                 )}
                                                 <div className="order-text fw-normal">
-                                                    <span className="item-name text-capitalize" >
+                                                    <span className="item-name text-capitalize">
                                                         {category.title}
                                                     </span>
                                                     <br />
@@ -113,9 +148,13 @@ const CategoryTable = ({ categoryList, itemsPerPage }) => {
                                                 to={`/categories/${category._id}/edit`}>
                                                 <RiPencilLine />
                                             </Link>
-                                            <Link>
+                                            <button
+                                                className="border-0 bg-white text-danger"
+                                                onClick={() =>
+                                                    handleDelete(category)
+                                                }>
                                                 <FaRegTrashAlt />
-                                            </Link>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -131,6 +170,14 @@ const CategoryTable = ({ categoryList, itemsPerPage }) => {
                     totalPages={totalPages}
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
+                />
+
+                <ConfirmDeleteModal
+                    show={showModal}
+                    handleClose={handleClose}
+                    handleConfirm={handleConfirmDelete}
+                    item={itemToDelete}
+                    loading={deleteLoading}
                 />
             </div>
         </div>
