@@ -11,14 +11,16 @@ import { NotificationContext } from "context/NotificationContext";
 import { apiClient } from "api/apiClient";
 import config from "config";
 import HandleApiError from "components/HandleApiError";
+import ButtonLoading from "components/ButtonLoading";
+import { useProduct } from "context/ProductContext";
 
 const ProductTable = ({ productList, itemsPerPage }) => {
+    const { moreLoading, hasNextPage, loadMore } = useProduct();
     const [showModal, setShowModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
     const { showNotification } = useContext(NotificationContext);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [error, setError] = useState("");
-
 
     const { user } = useContext(AuthContext);
     const [currentPage, setCurrentPage] = useState(1);
@@ -59,7 +61,6 @@ const ProductTable = ({ productList, itemsPerPage }) => {
         console.log(`Deleted item: ${itemToDelete}`);
         setShowModal(false);
     };
-
 
     return (
         <div className="merchant-order-table inter">
@@ -155,7 +156,8 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                                         {product.sku}
                                     </td>
                                     <td className="order-text order-column fade-color">
-                                        {product?.category && product.category.title}
+                                        {product?.category &&
+                                            product.category.title}
                                     </td>
                                     <td className="order-text order-column">
                                         {product.quantity}
@@ -231,6 +233,16 @@ const ProductTable = ({ productList, itemsPerPage }) => {
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
                 />
+                {totalPages === currentPage && (
+                    <div className="text-center mb-2">
+                        <button
+                        className="btn btn-primary text-white"
+                            onClick={loadMore}
+                            disabled={moreLoading || !hasNextPage}>
+                            Load More {moreLoading && <ButtonLoading />}
+                        </button>
+                    </div>
+                )}
                 <ConfirmDeleteModal
                     show={showModal}
                     handleClose={handleClose}

@@ -16,7 +16,7 @@ const ProductList = () => {
     useEffect(() => {
         if (!loading) {
             setProductList(products);
-            console.log(products)
+            console.log(products);
         }
     }, [loading, products]);
 

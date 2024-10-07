@@ -9,6 +9,13 @@ export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user, loading: userLoading } = useContext(AuthContext);
+    const [currentPage, setCurrentPage] = useState(1);
+    // const [totalPages, setTotalPages] = useState(0);
+    const [moreLoading, setMoreLoading] = useState(false);
+    const [hasNextPage, setHasNextPage] = useState(false);
+    // const [totalItems, setTotalItems] = useState(0);
+    // const [totalPages, setTotalPages] = useState(0);
+    // const limit = 10
 
     useEffect(() => {
         // Fetch product products from the backend (once)
@@ -19,6 +26,8 @@ export const ProductProvider = ({ children }) => {
                         const response = await apiClient.get(
                             `${config.API_BASE_URL}/product`
                         );
+                        setCurrentPage(response.data.data.page);
+                        setHasNextPage(response.data.data.hasNextPage);
 
                         const productResponse = response.data.data.docs;
                         const sortedProduct = [...productResponse].sort(
@@ -41,6 +50,28 @@ export const ProductProvider = ({ children }) => {
         fetchProducts();
     }, [user, userLoading]);
 
+    const loadMore = async () => {
+        setMoreLoading(true);
+        if (!hasNextPage) {
+            return;
+        }
+        try {
+            const response = await apiClient.get(
+                `${config.API_BASE_URL}/product?page=${currentPage + 1}`
+            );
+            console.log(response.data);
+            setHasNextPage(response.data.data.hasNextPage);
+            setProducts((prevProducts) => [
+                ...prevProducts,
+                ...response.data.data.docs,
+            ]);
+        } catch (err) {
+            console.log("Error fetching more products:", err);
+        } finally {
+            setMoreLoading(false);
+        }
+    };
+
     // Function to add or update a product in the list
     const addOrUpdateProduct = (newProduct) => {
         setProducts((prevProducts) => {
@@ -62,10 +93,19 @@ export const ProductProvider = ({ children }) => {
 
     return (
         <ProductContext.Provider
-            value={{ products, loading, setProducts, addOrUpdateProduct }}>
+            value={{
+                products,
+                loading,
+                setProducts,
+                addOrUpdateProduct,
+                loadMore,
+                moreLoading,
+                hasNextPage,
+            }}>
             {children}
         </ProductContext.Provider>
     );
 };
 
+export const useProduct = () => useContext(ProductContext);
 export default ProductContext;
