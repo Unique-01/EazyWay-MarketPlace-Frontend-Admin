@@ -1,8 +1,11 @@
 import { useState } from "react";
 import AdminPagination from "components/AdminPagination";
 import FormattedDate from "components/FormattedDate";
+import ButtonLoading from "components/ButtonLoading";
+import { useOrder } from "context/OrderContext";
 
 const TransactionHistory = ({ orderList, itemsPerPage }) => {
+    const { moreLoading, hasNextPage, loadMore } = useOrder();
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = orderList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -130,6 +133,17 @@ const TransactionHistory = ({ orderList, itemsPerPage }) => {
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
                 />
+
+                {totalPages === currentPage && (
+                    <div className="text-center mb-2">
+                        <button
+                            className="btn btn-primary text-white"
+                            onClick={loadMore}
+                            disabled={moreLoading || !hasNextPage}>
+                            Load More {moreLoading && <ButtonLoading />}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

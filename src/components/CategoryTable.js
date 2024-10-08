@@ -10,8 +10,13 @@ import { apiClient } from "api/apiClient";
 import config from "config";
 import { NotificationContext } from "context/NotificationContext";
 import HandleApiError from "./HandleApiError";
+import ProductCategoryContext from "context/ProductCategoryContext";
+import ButtonLoading from "./ButtonLoading";
 
 const CategoryTable = ({ categoryList, itemsPerPage }) => {
+    const { moreLoading, hasNextPage, loadMore } = useContext(
+        ProductCategoryContext
+    );
     const [showModal, setShowModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
     const { showNotification } = useContext(NotificationContext);
@@ -171,6 +176,17 @@ const CategoryTable = ({ categoryList, itemsPerPage }) => {
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
                 />
+
+                {totalPages === currentPage && (
+                    <div className="text-center mb-2">
+                        <button
+                            className="btn btn-primary text-white"
+                            onClick={loadMore}
+                            disabled={moreLoading || !hasNextPage}>
+                            Load More {moreLoading && <ButtonLoading />}
+                        </button>
+                    </div>
+                )}
 
                 <ConfirmDeleteModal
                     show={showModal}

@@ -71,7 +71,7 @@ const Dashboard = () => {
                             </button>
                         </div>
                     </div>
-                    <OrderTable orderList={recentOrders} itemsPerPage={5} />
+                    <OrderTable orderList={recentOrders} itemsPerPage={5} full={false} />
                 </div>
             </div>
         </div>

@@ -10,12 +10,9 @@ export const ProductProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const { user, loading: userLoading } = useContext(AuthContext);
     const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPages, setTotalPages] = useState(0);
     const [moreLoading, setMoreLoading] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
-    // const [totalItems, setTotalItems] = useState(0);
-    // const [totalPages, setTotalPages] = useState(0);
-    // const limit = 10
+    
 
     useEffect(() => {
         // Fetch product products from the backend (once)

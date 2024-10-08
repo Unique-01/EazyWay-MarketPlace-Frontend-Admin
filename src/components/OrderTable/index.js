@@ -5,8 +5,11 @@ import { BsEye } from "react-icons/bs";
 import { RiPencilLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import FormattedDate from "components/FormattedDate";
+import { useOrder } from "context/OrderContext";
+import ButtonLoading from "components/ButtonLoading";
 
-const OrderTable = ({ orderList, itemsPerPage }) => {
+const OrderTable = ({ orderList, itemsPerPage, full = true }) => {
+    const { moreLoading, hasNextPage, loadMore } = useOrder();
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = orderList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -143,7 +146,9 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
                                     <td className="order-text order-column fade-color">
                                         ${order.amount}
                                     </td>
-                                    <td className="fade-color text-capitalize">{order.paymentMethod}</td>
+                                    <td className="fade-color text-capitalize">
+                                        {order.paymentMethod}
+                                    </td>
                                     <td className="order-column">
                                         {order.statusText}
                                         {/* <div className="merchant-product-status">
@@ -182,6 +187,19 @@ const OrderTable = ({ orderList, itemsPerPage }) => {
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
                 />
+
+                {full
+                    ? totalPages === currentPage && (
+                          <div className="text-center mb-2">
+                              <button
+                                  className="btn btn-primary text-white"
+                                  onClick={loadMore}
+                                  disabled={moreLoading || !hasNextPage}>
+                                  Load More {moreLoading && <ButtonLoading />}
+                              </button>
+                          </div>
+                      )
+                    : null}
             </div>
         </div>
     );

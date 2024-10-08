@@ -1,14 +1,13 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Pagination from "components/AdminPagination";
 import { BsEye } from "react-icons/bs";
-import { RiPencilLine } from "react-icons/ri";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FormattedDate from "components/FormattedDate";
-import { AuthContext } from "context/AuthContext";
+import { useCustomer } from "context/CustomersContext";
+import ButtonLoading from "components/ButtonLoading";
 
 const CustomerTable = ({ customerList, itemsPerPage }) => {
-    const { user } = useContext(AuthContext);
+    const { moreLoading, hasNextPage, loadMore } = useCustomer();
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = customerList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -149,6 +148,17 @@ const CustomerTable = ({ customerList, itemsPerPage }) => {
                     currentPage={currentPage}
                     handlePageChange={handlePageChange}
                 />
+
+                {totalPages === currentPage && (
+                    <div className="text-center mb-2">
+                        <button
+                            className="btn btn-primary text-white"
+                            onClick={loadMore}
+                            disabled={moreLoading || !hasNextPage}>
+                            Load More {moreLoading && <ButtonLoading />}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

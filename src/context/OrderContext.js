@@ -9,6 +9,9 @@ export const OrderProvider = ({ children }) => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user, loading: userLoading } = useContext(AuthContext);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [moreLoading, setMoreLoading] = useState(false);
+    const [hasNextPage, setHasNextPage] = useState(false);
 
     useEffect(() => {
         // Fetch product products from the backend (once)
@@ -19,7 +22,8 @@ export const OrderProvider = ({ children }) => {
                         const response = await apiClient.get(
                             `${config.API_BASE_URL}/product/order/admin`
                         );
-
+                        setCurrentPage(response.data.data.page);
+                        setHasNextPage(response.data.data.hasNextPage);
                         const orderResponse = response.data.data.docs;
                         const sortedOrders = [...orderResponse].sort(
                             (a, b) =>
@@ -38,8 +42,32 @@ export const OrderProvider = ({ children }) => {
         fetchOrders();
     }, [user, userLoading]);
 
+    const loadMore = async () => {
+        setMoreLoading(true);
+        if (!hasNextPage) {
+            return;
+        }
+        try {
+            const response = await apiClient.get(
+                `${config.API_BASE_URL}/product/order/admin?page=${
+                    currentPage + 1
+                }`
+            );
+            setHasNextPage(response.data.data.hasNextPage);
+            setOrders((prevOrders) => [
+                ...prevOrders,
+                ...response.data.data.docs,
+            ]);
+        } catch (err) {
+            console.log("Error fetching more products:", err);
+        } finally {
+            setMoreLoading(false);
+        }
+    };
+
     return (
-        <OrderContext.Provider value={{ orders, loading }}>
+        <OrderContext.Provider
+            value={{ orders, loading, loadMore, moreLoading, hasNextPage }}>
             {children}
         </OrderContext.Provider>
     );
