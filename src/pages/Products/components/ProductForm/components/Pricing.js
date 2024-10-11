@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const Pricing = ({ formData, handleInputChange, loading }) => (
+const Pricing = ({ formData, handleInputChange, loading, errors }) => (
     <div className="bg-white shadow-sm p-4 rounded mb-4">
         <h6 className="mb-3">Pricing</h6>
         <div className="row">
@@ -9,18 +9,28 @@ const Pricing = ({ formData, handleInputChange, loading }) => (
                     Base Price
                 </label>
                 <div className="input-group">
-                    <span className="input-group-text">$</span>
+                    <span
+                        className={`input-group-text  ${
+                            errors?.amount && "border-danger"
+                        }`}>
+                        $
+                    </span>
                     <input
                         name="amount"
                         id="basePrice"
                         type="text"
-                        className="form-control border-start-0"
+                        className={`form-control ${
+                            errors?.amount && "border-danger"
+                        }`}
                         placeholder="Type base price here . . ."
                         value={formData.amount}
                         disabled={loading}
                         onChange={handleInputChange}
                     />
                 </div>
+                {errors?.amount && (
+                    <p className="text-danger small">{errors.amount}</p>
+                )}
             </div>
             <div className="col-md-6">
                 <label className="form-label">Discount Type</label>
