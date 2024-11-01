@@ -41,7 +41,7 @@ const CustomerList = () => {
                         <h5>Customer</h5>
                         <Breadcrumb />
                     </div>
-                    <div className="d-inline-flex gap-3">
+                    {/* <div className="d-inline-flex gap-3">
                         <button className="btn export-btn">
                             <PiExport /> Export
                         </button>
@@ -50,7 +50,7 @@ const CustomerList = () => {
                             className="btn btn-primary text-white">
                             <IoMdAdd /> Add Product
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="d-flex justify-content-between mt-4">
                     <form>
@@ -65,13 +65,13 @@ const CustomerList = () => {
                             />
                         </div>
                     </form>
-                    <div className="d-flex gap-3">
+                    {/* <div className="d-flex gap-3">
                         <input type="date" className="form-control" />
                         <button className="btn btn-white bg-white border filter-btn ">
                             <HiOutlineAdjustmentsHorizontal />
                             Filters
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="mt-4">
                     <CustomerTable

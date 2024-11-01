@@ -100,10 +100,10 @@ const SideNav = ({ onCollapse, isOpen }) => {
                         <AiOutlineDollar className="nav-icon" />
                         <span className="">Payments</span>
                     </NavLink>
-                    <NavLink to="/settings" className="nav-link w-100">
+                    {/* <NavLink to="/settings" className="nav-link w-100">
                         <IoMdSettings className="nav-icon" />
                         <span className="">Settings</span>
-                    </NavLink>
+                    </NavLink> */}
                     <button
                         onClick={handleLogout}
                         className="nav-link w-100 mt-auto mb-5">

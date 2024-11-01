@@ -29,18 +29,18 @@ const OrderList = () => {
                         <h5 className="">Orders</h5>
                         <Breadcrumb />
                     </div>
-                    <div className="d-inline-flex gap-3">
+                    {/* <div className="d-inline-flex gap-3">
                         <button className="btn export-btn">
                             <PiExport /> Export
                         </button>
-                    </div>
+                    </div> */}
                 </div>
-                <div className="d-flex justify-content-end gap-3 mt-4">
+                {/* <div className="d-flex justify-content-end gap-3 mt-4">
                     <button className="btn btn-white bg-white border filter-btn ">
                         <HiOutlineAdjustmentsHorizontal />
                         Filters
                     </button>
-                </div>
+                </div> */}
                 <div className="mt-4">
                     <OrderTable orderList={orderList} itemsPerPage={10} />
                 </div>

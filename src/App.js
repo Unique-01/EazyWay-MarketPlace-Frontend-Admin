@@ -30,6 +30,8 @@ import CustomerPayment from "pages/Payments";
 import CustomerList from "pages/Customers/CustomerList";
 import { CustomerProvider } from "context/CustomersContext";
 import CustomerDetails from "pages/Customers/CustomerDetails";
+import MerchantList from "pages/Merchants/MerchantList";
+import { MerchantProvider } from "context/MerchantContext";
 
 function App() {
     return (
@@ -41,112 +43,122 @@ function App() {
                             <DashboardStatProvider>
                                 <OrderProvider>
                                     <PaymentProvider>
-                                        <CustomerProvider>
-                                            <BrowserRouter>
-                                                <AxiosSetup />
-                                                <Notification />
-                                                <Routes>
-                                                    <Route
-                                                        path="login"
-                                                        element={<Login />}
-                                                    />
-                                                    <Route
-                                                        path="*"
-                                                        element={
-                                                            <NotFoundPage />
-                                                        }
-                                                    />
-                                                    <Route
-                                                        path="/"
-                                                        element={<Layout />}>
+                                        <MerchantProvider>
+                                            <CustomerProvider>
+                                                <BrowserRouter>
+                                                    <AxiosSetup />
+                                                    <Notification />
+                                                    <Routes>
                                                         <Route
-                                                            index
+                                                            path="login"
+                                                            element={<Login />}
+                                                        />
+                                                        <Route
+                                                            path="*"
                                                             element={
-                                                                <Dashboard />
+                                                                <NotFoundPage />
                                                             }
                                                         />
                                                         <Route
-                                                            path="orders"
+                                                            path="/"
                                                             element={
-                                                                <OrderList />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="orders/:orderId"
-                                                            element={
-                                                                <OrderDetails />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="products"
-                                                            element={
-                                                                <ProductList />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="products/add"
-                                                            element={
-                                                                <ProductCreate />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="products/:productId"
-                                                            element={
-                                                                <ProductDetails />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="products/:productId/edit"
-                                                            element={
-                                                                <ProductUpdate />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="categories"
-                                                            element={
-                                                                <CategoryList />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="categories/add"
-                                                            element={
-                                                                <CategoryCreate />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="categories/:categoryId"
-                                                            element={
-                                                                <CategoryDetails />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="categories/:categoryId/edit"
-                                                            element={
-                                                                <CategoryUpdate />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="payments"
-                                                            element={
-                                                                <CustomerPayment />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="customers"
-                                                            element={
-                                                                <CustomerList />
-                                                            }
-                                                        />
-                                                        <Route
-                                                            path="customers/:customerId"
-                                                            element={
-                                                                <CustomerDetails />
-                                                            }
-                                                        />
-                                                    </Route>
-                                                </Routes>
-                                            </BrowserRouter>
-                                        </CustomerProvider>
+                                                                <Layout />
+                                                            }>
+                                                            <Route
+                                                                index
+                                                                element={
+                                                                    <Dashboard />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="orders"
+                                                                element={
+                                                                    <OrderList />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="orders/:orderId"
+                                                                element={
+                                                                    <OrderDetails />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="products"
+                                                                element={
+                                                                    <ProductList />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="products/add"
+                                                                element={
+                                                                    <ProductCreate />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="products/:productId"
+                                                                element={
+                                                                    <ProductDetails />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="products/:productId/edit"
+                                                                element={
+                                                                    <ProductUpdate />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="categories"
+                                                                element={
+                                                                    <CategoryList />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="categories/add"
+                                                                element={
+                                                                    <CategoryCreate />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="categories/:categoryId"
+                                                                element={
+                                                                    <CategoryDetails />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="categories/:categoryId/edit"
+                                                                element={
+                                                                    <CategoryUpdate />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="payments"
+                                                                element={
+                                                                    <CustomerPayment />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="customers"
+                                                                element={
+                                                                    <CustomerList />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="customers/:customerId"
+                                                                element={
+                                                                    <CustomerDetails />
+                                                                }
+                                                            />
+                                                            <Route
+                                                                path="merchants"
+                                                                element={
+                                                                    <MerchantList />
+                                                                }
+                                                            />
+                                                        </Route>
+                                                    </Routes>
+                                                </BrowserRouter>
+                                            </CustomerProvider>
+                                        </MerchantProvider>
                                     </PaymentProvider>
                                 </OrderProvider>
                             </DashboardStatProvider>
